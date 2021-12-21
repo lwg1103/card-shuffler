@@ -14,13 +14,7 @@ public class FullDeck implements Deck
 
     public FullDeck()
     {
-        cards = new ArrayList<>();
-
-        for (Color color : Color.values()) {
-            for (Figure figure : Figure.values()) {
-                cards.add(new Card(figure, color));
-            }
-        }
+        reset();
     }
 
     @Override
@@ -32,12 +26,28 @@ public class FullDeck implements Deck
     @Override
     public Card drawCard(int position)
     {
-        return cards.remove(position);
+        try {
+            return cards.remove(position);
+        } catch ( IndexOutOfBoundsException e) {
+            throw new InvalidCardPositionException();
+        }
     }
 
     @Override
     public int deckSize()
     {
         return cards.size();
+    }
+
+    @Override
+    public void reset()
+    {
+        cards = new ArrayList<>();
+
+        for (Color color : Color.values()) {
+            for (Figure figure : Figure.values()) {
+                cards.add(new Card(figure, color));
+            }
+        }
     }
 }

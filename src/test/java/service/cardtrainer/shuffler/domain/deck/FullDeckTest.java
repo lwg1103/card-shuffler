@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import service.cardtrainer.shuffler.domain.card.Card;
 import service.cardtrainer.shuffler.domain.deck.FullDeck;
 
+import java.lang.reflect.Executable;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FullDeckTest
@@ -39,8 +41,25 @@ class FullDeckTest
         assertEquals(STARTING_DECK_SIZE - 1, testSubject.deckSize());
     }
 
+    @Test
+    public void itResetsDeckOnDemand()
+    {
+        assertEquals(STARTING_DECK_SIZE, testSubject.deckSize());
+        testSubject.drawCard(7);
+        testSubject.reset();
+        assertEquals(STARTING_DECK_SIZE, testSubject.deckSize());
+    }
+
+    @Test
     public void itThrowsExceptionIfPositionOutOfBounds()
     {
+        assertThrows(InvalidCardPositionException.class, () -> {
+            testSubject.drawCard(STARTING_DECK_SIZE + 1);
+        });
+
+        assertThrows(InvalidCardPositionException.class, () -> {
+            testSubject.drawCard(-1);
+        });
     }
 
     @BeforeEach

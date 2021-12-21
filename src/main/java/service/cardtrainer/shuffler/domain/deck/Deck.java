@@ -11,4 +11,6 @@ public interface Deck
     public Card drawCard(int position);
 
     public int deckSize();
+
+    public void reset();
 }

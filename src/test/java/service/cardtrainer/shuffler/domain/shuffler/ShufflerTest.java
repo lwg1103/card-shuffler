@@ -1,4 +1,4 @@
-package service.cardtrainer.shuffler.domain.shuttler;
+package service.cardtrainer.shuffler.domain.shuffler;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
-class ShuttlerTest
+class ShufflerTest
 {
-    private Shuttler testSubject;
+    private Shuffler testSubject;
     private Deck deckMock;
     private Card cardMock;
 
@@ -22,6 +22,13 @@ class ShuttlerTest
         verify(deckMock).drawCard(anyInt());
     }
 
+    @Test
+    public void itShuffleDeckOnDemand()
+    {
+        testSubject.shuffleDeck();
+        verify(deckMock).reset();
+    }
+
     @BeforeEach
     void setUp()
     {
@@ -29,6 +36,6 @@ class ShuttlerTest
         deckMock = mock(Deck.class);
         when(deckMock.drawCard(anyInt())).thenReturn(cardMock);
 
-        testSubject = new Shuttler(deckMock);
+        testSubject = new Shuffler(deckMock);
     }
 }
