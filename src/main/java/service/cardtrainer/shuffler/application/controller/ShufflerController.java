@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import service.cardtrainer.shuffler.domain.card.Card;
 import service.cardtrainer.shuffler.domain.shuffler.Shuffler;
+import service.cardtrainer.shuffler.infrastructure.dto.Card;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,13 @@ public class ShufflerController
 
         shuffler.shuffleDeck();
         for (int i = 0; i<count; i++) {
-            cards.add(shuffler.drawRandomCard());
+            service.cardtrainer.shuffler.domain.card.Card domainCard = shuffler.drawRandomCard();
+
+            Card dtoCard = new Card();
+            dtoCard.figure = domainCard.figure.label;
+            dtoCard.color = domainCard.color.label;
+
+            cards.add(dtoCard);
         }
 
         return cards;
